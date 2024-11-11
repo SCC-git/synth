@@ -3,6 +3,7 @@
 *.txt
 *.iml
 *__pycache__/
-*.csv
 /0015-20 EU-SILC_2022/
 /0061-00 LFS_Q11998-Q32023/
+/plots/
+/results/
