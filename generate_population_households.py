@@ -78,7 +78,6 @@ def genetic_algorithm(households: {str: {str: []}}, ed_aggregates: pd.DataFrame,
     num_generations = 250
 
     for ed in tqdm(eds):
-
         this_eds_aggregates = ed_aggregates[ed_aggregates["ED_ID"] == str(ed)].to_dict('records')
         if len(this_eds_aggregates) > 1:
             temp = {}
@@ -131,7 +130,7 @@ def genetic_algorithm(households: {str: {str: []}}, ed_aggregates: pd.DataFrame,
             pkl.dump(best, f)
 
 
-def simulated_annealing(households: {str: {str: {}}}, ed_aggregates: pd.DataFrame, error_columns: []):
+def simulated_annealing(households: {str: {str: {}}}, ed_aggregates: pd.DataFrame):
     results_folder = "./results/simulated_annealing/"
 
     # old_ed_totals = pd.read_csv("SAPS_2022_CSOED3270923_combined_qualis.csv", encoding="latin-1")
@@ -250,3 +249,4 @@ if __name__ == '__main__':
     error_columns = sorted(list(filter(regex_match_string.match, ed_totals.columns)))
 
     genetic_algorithm(households=q3_households, ed_aggregates=ed_totals, population_size=100)
+    # simulated_annealing(households=q3_households, ed_aggregates=ed_totals)
