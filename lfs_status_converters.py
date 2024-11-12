@@ -1,5 +1,4 @@
-from constants import tables_and_characteristics_with_blanks, \
-    saps_levels_of_education, \
+from constants import saps_levels_of_education, \
     saps_employment_statuses, \
     sexes
 from math import isnan
