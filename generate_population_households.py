@@ -9,6 +9,7 @@ import re
 from lfs_status_converters import household_size, employment_status, highest_level_of_education
 from constants import tables_and_characteristics_with_nas, saps_ages, sexes, saps_marital_statuses
 from utils import dupe_dict
+import argparse
 
 
 def calculate_error(error_households: [{dict}], eds_aggregates):
@@ -133,7 +134,6 @@ def genetic_algorithm(households: {str: {str: []}}, ed_aggregates: pd.DataFrame,
 def simulated_annealing(households: {str: {str: {}}}, ed_aggregates: pd.DataFrame):
     results_folder = "./results/simulated_annealing/"
 
-    # old_ed_totals = pd.read_csv("SAPS_2022_CSOED3270923_combined_qualis.csv", encoding="latin-1")
     old_ed_totals = pd.read_csv("SAPS_2022_CSOED3270923.csv", encoding="latin-1")
     old_ed_totals["ED_ID"] = old_ed_totals["ED_ID"].astype(str)
 
@@ -201,7 +201,6 @@ def simulated_annealing(households: {str: {str: {}}}, ed_aggregates: pd.DataFram
             # Update temperature
             control_parameter = math.floor(0.85 * control_parameter)
 
-            # print(f"Temperature: {control_parameter}")
             print(f"Best Error: {best_error}")
             if (best_error <= error_stopping_criteria) or (num_repeats_at_temp_1 > 20):
                 break
@@ -213,6 +212,11 @@ def simulated_annealing(households: {str: {str: {}}}, ed_aggregates: pd.DataFram
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("approach", default="genetic_algorithm", choices=["genetic_algorithm", "simulated_annealing"])
+    args = parser.parse_args()
+    approach = args.approach
+
     folder = "0061-00 LFS_Q11998-Q32023/0061-00 LFS/0061-00_Data/CSV/"
     file = "0061-24_lfs_2023.csv"
 
@@ -248,5 +252,7 @@ if __name__ == '__main__':
     regex_match_string = re.compile(error_regex)
     error_columns = sorted(list(filter(regex_match_string.match, ed_totals.columns)))
 
-    genetic_algorithm(households=q3_households, ed_aggregates=ed_totals, population_size=100)
-    # simulated_annealing(households=q3_households, ed_aggregates=ed_totals)
+    if approach == "genetic_algorithm":
+        genetic_algorithm(households=q3_households, ed_aggregates=ed_totals, population_size=100)
+    elif approach == "simulated_annealing":
+        simulated_annealing(households=q3_households, ed_aggregates=ed_totals)
