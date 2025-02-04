@@ -1,5 +1,7 @@
 # Synthetic Population Generation for Ireland
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14802378.svg)](https://doi.org/10.5281/zenodo.14802378)
+
 Synthetic populations created with IPF and conditional probabilities are given in the [results folder](results/).
 
 To create your own populations, follow these steps:
